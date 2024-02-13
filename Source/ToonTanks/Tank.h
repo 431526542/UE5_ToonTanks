@@ -40,4 +40,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Movements")
 	float TurnRate = 500.f;
 
+	//UFUNCTION()
+	//void GetDam
+
 };

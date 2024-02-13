@@ -7,6 +7,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
+#include "Projectile.h"
+#include "HealthComponent.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -25,6 +28,8 @@ ABasePawn::ABasePawn()
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+	HealthComponent = CreateDefaultSubobject< UHealthComponent>(TEXT("HealthComponent"));
 }
 
 void ABasePawn::RotateTurret(FVector LookAtTarget)
@@ -33,6 +38,17 @@ void ABasePawn::RotateTurret(FVector LookAtTarget)
 	FRotator LookAtRotation = FRotator(0.f, ToTarget.Rotation().Yaw, 0.f);
 	TurretMesh->SetWorldRotation(FMath::RInterpTo(TurretMesh->GetComponentRotation(),LookAtRotation,
 		UGameplayStatics::GetWorldDeltaSeconds(this),5.f));
+}
+
+void ABasePawn::Fire()
+{
+	//FVector ProjectileSpawnPointLocation = ProjectileSpawnPoint->GetComponentLocation();
+	//DrawDebugSphere(GetWorld(), ProjectileSpawnPointLocation, 25.f, 12, FColor::Red, false, 3.f);
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, 
+		ProjectileSpawnPoint->GetComponentLocation(),
+		ProjectileSpawnPoint->GetComponentRotation());
+
+	Projectile->SetOwner(this);
 }
 
 	
