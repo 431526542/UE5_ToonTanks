@@ -26,7 +26,7 @@ private:
 	void Move(float Value);
 	void Turn(float Value);
 
-	APlayerController* PlayerControllerRef;
+	APlayerController* TankPlayerController;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -40,7 +40,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Movements")
 	float TurnRate = 500.f;
 
-	//UFUNCTION()
-	//void GetDam
+public:
+	void HandleDestruction();
+	APlayerController* GetTankPlayerController() const { return TankPlayerController; }
 
 };

@@ -36,4 +36,17 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UHealthComponent* HealthComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	class UParticleSystem* DeathParticles;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	class USoundBase* DeathSound;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TSubclassOf<class UCameraShakeBase> DeathCameraShakeclass;
+
+public:
+	void HandleDestruction();
+
 };

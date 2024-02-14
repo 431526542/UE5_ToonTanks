@@ -10,6 +10,8 @@
 #include "DrawDebugHelpers.h"
 #include "Projectile.h"
 #include "HealthComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Camera/CameraShakeBase.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -30,6 +32,25 @@ ABasePawn::ABasePawn()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 
 	HealthComponent = CreateDefaultSubobject< UHealthComponent>(TEXT("HealthComponent"));
+}
+
+void ABasePawn::HandleDestruction()
+{
+	if (DeathParticles)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(),
+			GetActorRotation());
+	}
+
+	if (DeathSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+	}
+	if (DeathCameraShakeclass)
+	{
+		GetWorld()->GetFirstPlayerController()
+			->ClientStartCameraShake(DeathCameraShakeclass);
+	}
 }
 
 void ABasePawn::RotateTurret(FVector LookAtTarget)
